@@ -1,2 +1,2 @@
 # DJASSA-EN-LIGNE
-Pkateforme de vente en ligne
+Plateforme de vente en ligne
