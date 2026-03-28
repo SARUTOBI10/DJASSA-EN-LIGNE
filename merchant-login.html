@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DJASSA EN LIGNE - Connexion Marchand</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style_boostrap/css/bootstrap.min.css">
+    <style>
+        .merchant-login-container {
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .merchant-login-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            max-width: 450px;
+            width: 100%;
+        }
+
+        .merchant-login-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .merchant-login-header h2 {
+            margin: 0;
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .merchant-login-header p {
+            margin: 0.5rem 0 0 0;
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+
+        .merchant-login-body {
+            padding: 2rem;
+        }
+
+        .form-floating {
+            margin-bottom: 1rem;
+        }
+
+        .form-floating label {
+            color: #6c757d;
+            font-weight: 500;
+        }
+
+        .btn-merchant-login {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+            font-size: 1rem;
+            border-radius: 8px;
+            width: 100%;
+            transition: transform 0.2s ease;
+        }
+
+        .btn-merchant-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.3);
+        }
+
+        .security-notice {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1.5rem;
+            font-size: 0.85rem;
+            color: #856404;
+        }
+
+        .security-notice strong {
+            color: #533f00;
+        }
+
+        .forgot-password {
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .forgot-password a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+
+        .login-attempts {
+            color: #dc3545;
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="merchant-login-container">
+        <div class="merchant-login-card">
+            <div class="merchant-login-header">
+                <h2>🔐 Accès Marchand</h2>
+                <p>DJASSA EN LIGNE - Espace Administrateur</p>
+            </div>
+
+            <div class="merchant-login-body">
+                <form onsubmit="loginMerchant(event)">
+                    <div class="form-floating">
+                        <input type="email" class="form-control" id="merchant-email" placeholder="email@exemple.com" required>
+                        <label for="merchant-email">📧 Adresse email</label>
+                    </div>
+
+                    <div class="form-floating">
+                        <input type="password" class="form-control" id="merchant-password" placeholder="Mot de passe" required>
+                        <label for="merchant-password">🔒 Mot de passe</label>
+                    </div>
+
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="merchant-remember">
+                        <label class="form-check-label" for="merchant-remember">
+                            🔄 Se souvenir de moi
+                        </label>
+                    </div>
+
+                    <div id="login-attempts-warning" class="login-attempts">
+                        ⚠️ Tentatives restantes: <span id="remaining-attempts">3</span>
+                    </div>
+
+                    <button type="submit" class="btn btn-merchant-login">
+                        🚀 Se connecter
+                    </button>
+                </form>
+
+                <div class="forgot-password">
+                    <a href="#" onclick="showForgotPassword()">Mot de passe oublié ?</a>
+                </div>
+
+                <div class="security-notice">
+                    <strong>🔒 Sécurité:</strong> Cette zone est réservée aux administrateurs.
+                    Toutes les tentatives de connexion sont surveillées.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Charger les credentials sauvegardés
+        loadSavedCredentials();
+
+        // Pré-remplir l'email si sauvegardé
+        const savedMerchant = localStorage.getItem('djassa_merchant_credentials');
+        if (savedMerchant) {
+            const credentials = JSON.parse(savedMerchant);
+            document.getElementById('merchant-email').value = credentials.email || '';
+            document.getElementById('merchant-remember').checked = true;
+        }
+
+        // Mettre à jour l'affichage des tentatives
+        function updateAttemptsDisplay() {
+            const attemptsElement = document.getElementById('login-attempts-warning');
+            const remainingElement = document.getElementById('remaining-attempts');
+
+            if (merchantData.loginAttempts > 0) {
+                attemptsElement.style.display = 'block';
+                remainingElement.textContent = Math.max(0, 3 - merchantData.loginAttempts);
+            } else {
+                attemptsElement.style.display = 'none';
+            }
+
+            if (merchantData.locked) {
+                attemptsElement.innerHTML = '❌ Compte verrouillé temporairement';
+                attemptsElement.style.display = 'block';
+            }
+        }
+
+        // Vérifier périodiquement l'état du compte
+        setInterval(updateAttemptsDisplay, 1000);
+        updateAttemptsDisplay();
+
+        // Fonction pour le mot de passe oublié (simulation)
+        function showForgotPassword() {
+            const email = document.getElementById('merchant-email').value;
+            if (!email) {
+                showAlert('Veuillez saisir votre email d\'abord', 'error');
+                return;
+            }
+
+            showAlert('📧 Un email de réinitialisation a été envoyé à ' + email, 'info');
+            console.log('🔑 Demande de réinitialisation pour:', email);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DJASSA EN LIGNE - Plateforme de Vente</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style_boostrap/css/bootstrap.min.css">
+</head>
+<body>
+    <!-- SECTION ACCUEIL / CATALOGUE -->
+    <div id="home-page" class="page active">
+        <nav class="navbar sticky-top">
+            <div class="container-fluid">
+                <span class="navbar-brand">🛍️ DJASSA EN LIGNE</span>
+                <div class="nav-buttons">
+                    <button class="btn btn-outline" onclick="goToCart()" id="cart-btn">🛒 Panier</button>
+                    <button class="btn btn-outline" id="conn-btn" onclick="window.location.href='client-login.html'">👤 Connexion</button>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container mt-4">
+            <h1 class="text-center mb-5">Bienvenue chez DJASSA EN LIGNE</h1>
+            
+            <!-- Filtre catégories -->
+            <div class="category-filter mb-4">
+                <button class="cat-btn active" onclick="filterCategory('all')">Tous</button>
+                <button class="cat-btn" onclick="filterCategory('Chaussures')">Chaussures</button>
+                <button class="cat-btn" onclick="filterCategory('Complet')">Complet</button>
+                <button class="cat-btn" onclick="filterCategory('Montre')">Montre</button>
+                <button class="cat-btn" onclick="filterCategory('Pantalon')">Pantalon</button>
+                <button class="cat-btn" onclick="filterCategory('Tee-shirt')">Tee-shirt</button>
+            </div>
+
+            <!-- Grille des produits -->
+            <div class="products-grid" id="products-grid">
+                <!-- Les cartes produits seront générées par JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE PANIER -->
+    <div id="cart-page" class="page hidden">
+        <nav class="navbar">
+            <div class="container-fluid">
+                <span class="navbar-brand">🛍️ DJASSA EN LIGNE - Panier</span>
+                <button class="btn btn-outline" onclick="goHome()">← Retour</button>
+            </div>
+        </nav>
+
+        <div class="container mt-4">
+            <h2>Mon Panier</h2>
+            <div id="cart-items" class="cart-items">
+                <!-- Contenu du panier -->
+            </div>
+            <div id="cart-summary" class="cart-summary hidden">
+                <h3>Résumé de la commande</h3>
+                <p>Total: <strong id="total-price">0.00 FCFA</strong></p>
+                <form onsubmit="submitOrder(event)">
+                    <input type="text" placeholder="Votre prénom" id="order-name" required>
+                    <input type="email" placeholder="Votre email" id="order-email" required>
+                    <input type="text" placeholder="Adresse de livraison" id="order-address" required>
+                    <input type="text" placeholder="Téléphone" id="order-phone" required>
+                    <button type="submit" class="btn btn-success">Valider la commande</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE TABLEAU DE BORD MARCHAND -->
+    <div id="merchant-page" class="page hidden">
+        <nav class="navbar">
+            <div class="container-fluid">
+                <span class="navbar-brand">🛍️ DJASSA EN LIGNE - Marchand</span>
+                <button class="btn btn-outline" onclick="showHomePage()">🏠 Accueil</button>
+                <button class="btn btn-danger" onclick="logoutMerchant()">Déconnexion</button>
+            </div>
+        </nav>
+
+        <div class="container mt-4">
+            <div class="row">
+                <div class="col-md-3">
+                    <h4>Profil Marchand</h4>
+                    <div id="merchant-profile" class="profile-box">
+                        <!-- Infos marchand -->
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <h4>Commandes reçues</h4>
+                    <div id="orders-list" class="orders-list">
+                        <!-- Liste des commandes -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- LIEN CACHÉ POUR MARCHAND -->
+    <a href="merchant-login.html" style="position: absolute; left: -9999px;">Accès Marchand</a>
+
+    <script src="script.js">
+        document.addEventListener('keydown', function(e) {
+    // Vérifie si Alt est pressé et la touche M (majuscule ou minuscule)
+    if (e.altKey && (e.key === 'm' || e.key === 'M')) {
+        e.preventDefault(); // empêche le comportement par défaut
+        const btnMasquer = document.getElementById('btn-masquer'); // id de ton bouton
+        if (btnMasquer) {
+            // Affiche ou masque le bouton
+            if (btnMasquer.style.display === 'none' || btnMasquer.style.display === '') {
+                btnMasquer.style.display = 'inline-block';
+            } else {
+                btnMasquer.style.display = 'none';
+            }
+        }
+    }
+});
+    </script>
+    
+</body>
+</html>
