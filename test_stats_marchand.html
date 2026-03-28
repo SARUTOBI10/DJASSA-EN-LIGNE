@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Statistiques Marchand</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .test-section {
+            background: #f8f9fa;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 5px;
+        }
+        .test-result {
+            padding: 0.5rem;
+            margin: 0.5rem 0;
+            border-radius: 4px;
+        }
+        .success { background: #d4edda; color: #155724; }
+        .info { background: #d1ecf1; color: #0c5460; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-brand">DJASSA EN LIGNE - TEST STATISTIQUES</div>
+            <div class="nav-buttons">
+                <button class="btn btn-outline" onclick="showMerchantDashboard()">📊 Dashboard Marchand</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container" style="padding: 2rem;">
+        <h1>🧪 Test des Statistiques Marchand</h1>
+
+        <div class="test-section">
+            <h3>1. Créer des données de test</h3>
+            <button onclick="createTestData()" class="btn">Créer Données Test</button>
+            <div id="test-data-result"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>2. Tester les calculs</h3>
+            <button onclick="testCalculations()" class="btn">Tester Calculs</button>
+            <div id="calculations-result"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>3. Profil du marchand</h3>
+            <div id="merchant-profile" style="background: white; padding: 1rem; border-radius: 5px;"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Simuler la connexion marchand pour les tests
+        currentMerchant = {
+            email: 'marchand@djassa.com',
+            nom: 'Djassa',
+            prenom: 'Shop'
+        };
+
+        function createTestData() {
+            const result = document.getElementById('test-data-result');
+            const now = new Date();
+
+            // Créer des commandes de test pour différents mois
+            const testOrders = [
+                // Ce mois-ci
+                {
+                    id: 'TEST-' + Date.now() + '-1',
+                    date: now.toLocaleDateString('fr-FR'),
+                    items: [{ id: 1, name: 'Test Product', price: 10000, quantity: 1, emoji: '🧪' }],
+                    total: 10000,
+                    clientName: 'Test Client 1',
+                    clientEmail: 'test1@example.com',
+                    clientAddress: '123 Test Street',
+                    clientPhone: '0123456789',
+                    status: 'completed'
+                },
+                {
+                    id: 'TEST-' + Date.now() + '-2',
+                    date: now.toLocaleDateString('fr-FR'),
+                    items: [{ id: 2, name: 'Test Product 2', price: 20000, quantity: 1, emoji: '🧪' }],
+                    total: 20000,
+                    clientName: 'Test Client 2',
+                    clientEmail: 'test2@example.com',
+                    clientAddress: '456 Test Street',
+                    clientPhone: '0987654321',
+                    status: 'completed'
+                },
+                // Mois dernier
+                {
+                    id: 'TEST-' + Date.now() + '-3',
+                    date: new Date(now.getFullYear(), now.getMonth() - 1, 15).toLocaleDateString('fr-FR'),
+                    items: [{ id: 3, name: 'Old Product', price: 15000, quantity: 1, emoji: '📦' }],
+                    total: 15000,
+                    clientName: 'Old Client',
+                    clientEmail: 'old@example.com',
+                    clientAddress: '789 Old Street',
+                    clientPhone: '0555555555',
+                    status: 'completed'
+                },
+                // Année dernière
+                {
+                    id: 'TEST-' + Date.now() + '-4',
+                    date: new Date(now.getFullYear() - 1, 5, 10).toLocaleDateString('fr-FR'),
+                    items: [{ id: 4, name: 'Very Old Product', price: 5000, quantity: 1, emoji: '📦' }],
+                    total: 5000,
+                    clientName: 'Very Old Client',
+                    clientEmail: 'veryold@example.com',
+                    clientAddress: '000 Old Street',
+                    clientPhone: '0666666666',
+                    status: 'completed'
+                }
+            ];
+
+            // Ajouter les commandes de test
+            orders.push(...testOrders);
+            saveData();
+
+            result.innerHTML = `
+                <div class="test-result success">
+                    ✓ Données de test créées:<br>
+                    • 2 commandes ce mois-ci (30,000 FCFA)<br>
+                    • 1 commande le mois dernier (15,000 FCFA)<br>
+                    • 1 commande l'année dernière (5,000 FCFA)<br>
+                    • Total: 4 commandes (50,000 FCFA)
+                </div>
+            `;
+        }
+
+        function testCalculations() {
+            const result = document.getElementById('calculations-result');
+            loadData();
+
+            const monthlySales = getMonthlySales();
+            const yearlyRevenue = getYearlyRevenue();
+            const totalRevenue = orders.reduce((sum, order) => sum + order.total, 0);
+
+            result.innerHTML = `
+                <div class="test-result info">
+                    📊 Statistiques calculées:<br>
+                    • Ventes ce mois: ${monthlySales.count} commandes<br>
+                    • Revenus ce mois: ${monthlySales.revenue.toLocaleString('fr-FR')} FCFA<br>
+                    • Revenus cette année: ${yearlyRevenue.toLocaleString('fr-FR')} FCFA<br>
+                    • Revenus totaux: ${totalRevenue.toLocaleString('fr-FR')} FCFA
+                </div>
+            `;
+        }
+
+        // Afficher le profil automatiquement
+        setTimeout(() => {
+            renderMerchantProfile();
+        }, 100);
+    </script>
+</body>
+</html>

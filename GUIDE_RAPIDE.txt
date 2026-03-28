@@ -1,0 +1,167 @@
+# 🚀 Guide de Démarrage Rapide - DJASSA EN LIGNE
+
+*Dernière mise à jour : 8 mars 2026*
+
+## Accès Simple
+
+1. **Double-cliquez sur `index.html`** ou ouvrez-le dans votre navigateur
+
+---
+
+## 🧑‍💼 Mode CLIENT
+
+### Étape 1: S'inscrire (première fois)
+1. Cliquez sur **"👤 Connexion"** 
+2. Cliquez sur **"S'inscrire"**
+3. Remplissez le formulaire:
+   - **Numéro**: ex: `123` ou votre numéro de téléphone
+   - **Prénom**: ex: `Jean`
+   - **Quartier**: ex: `Plateau`
+   - **E-mail**: ex: `jean@example.com`
+   - **Pseudo**: ex: `jean123` (UNIQUE - vous l'utiliserez pour la connexion)
+   - **Mot de passe**: ex: `djassa123`
+4. Cliquez **"S'inscrire"**
+
+### Étape 2: Se connecter
+1. Cliquez **"👤 Connexion"**
+2. Onglet **"Client"**
+3. Entrez:
+   - **Pseudo**: le pseudo que vous avez créé
+   - **Mot de passe**: votre mot de passe
+4. Cliquez **"Se connecter"**
+
+### Étape 3: Acheter des produits
+1. **Explorez les produits** soit par catégorie soit tous les produits
+2. **Sélectionnez la quantité** (champ "Quantité")
+3. Cliquez **"🛍️ Ajouter au panier"**
+4. Répétez pour plus d'articles
+
+### Étape 4: Valider la commande
+1. Cliquez **"🛒 Panier"**
+2. Vérifiez vos articles et le total
+3. Remplissez vos informations:
+   - **Prénom**: votre prénom
+   - **E-mail**: votre email
+   - **Adresse de livraison**: où vous voulez être livré
+   - **Téléphone**: votre numéro de contact
+4. Cliquez **"Valider la commande"**
+5. ✅ Votre commande est créée! Un email a été envoyé au marchand
+
+---
+
+## 🏪 Mode MARCHAND
+
+### Connexion Marchand
+```
+Email: marchand@djassa.com
+Mot de passe: djassa123
+```
+
+### Étapes:
+1. Cliquez **"👤 Connexion"**
+2. Sélectionnez l'onglet **"Marchand"**
+3. Entrez les identifiants ci-dessus
+4. Cliquez **"Se connecter"**
+
+### Gestion des commandes
+- Vous accédez au **Dashboard Marchand**
+- Vous voyez:
+  - ✅ Toutes les commandes des clients
+  - 📦 Chaque détail: articles, client, total, adresse
+  - ⏳ Statut: **"En attente"** ou **"Validée"**
+
+### Valider une commande
+1. Cliquez **"✓ Valider la commande"** sur une commande
+2. ✅ La commande devient **"Validée"**
+3. 📧 Un email de confirmation est AUTOMATIQUEMENT envoyé au client
+
+---
+
+## 📧 Emails
+
+> **Note** : les courriers sont simulés par affichage dans la console
+  (F12).
+
+L'application simule l'envoi d'emails. Pour voir les emails:
+
+### Ouvrir la Console du Navigateur:
+1. Appuyez sur **F12** ou **Ctrl+Shift+I** (Windows) / **Cmd+Option+I** (Mac)
+2. Allez à l'onglet **"Console"**
+3. Après une action, vous verrez les emails affichés
+
+Exemple:
+```
+📧 EMAIL ENVOYÉ AU MARCHAND:
+to: marchand@djassa.com
+subject: Nouvelle commande: CMD-1699999999999
+body: [détails de la commande]
+```
+
+---
+
+## 🧪 Tester avec des Produits
+
+### Exemples de Catégories:
+- **Chaussures**: Nike Air Max (85,000 FCFA), Adidas, Puma
+- **Complet**: Classique (65,000), Moderne, Premium
+- **Montre**: Sport (35,000), Élégante, Chrono
+- **Pantalon**: Casual (28,000), Formel, Slim
+- **Tee-shirt**: Blanc (12,000), Coloré, Premium
+
+---
+
+## 💾 Où sont mes données?
+
+- **Utilisateurs inscrits**: Navigateur (localStorage)
+- **Panier**: Navigateur (localStorage)
+- **Commandes**: Navigateur (localStorage)
+
+**⚠️ IMPORTANT**: Clearing your browser history = clearing all data!
+
+---
+
+## ✨ Fonctionnalités du Site
+
+✅ Filtrer produits par catégorie
+✅ Ajouter/supprimer du panier
+✅ S'inscrire facilement
+✅ Session persistent (restez connecté)
+✅ Voir tout l'historique des commandes (marchand)
+✅ Envoyer emails automatiquement
+✅ Design moderne et responsive
+
+---
+
+## 🔴 Dépannage
+
+### "Pseudo ou mot de passe incorrect"
+→ Vérifiez que vous avez créé le compte d'abord
+
+### "Le panier est vide"
+→ Ajoutez des produits avant d'aller au panier
+
+### "Je ne vois pas les emails"
+→ Ouvrez la console (F12) pour voir les logs d'emails
+
+### "Je n'apparais plus connecté"
+→ Rechargez la page ou réplugez-vous
+
+---
+
+## 🎓 Raccourcis
+
+| Action | Lien | Raccourci |
+|--------|------|----------|
+| Accueil | Home | Cliquez "DJASSA EN LIGNE" |
+| Panier | Cart | Cliquez 🛒 |
+| Connexion | Login | Cliquez 👤 |
+| Dashboard Marchand | Merchant | Après connexion marchand |
+
+---
+
+## 📞 Problèmes?
+
+**Contactez le support DJASSA EN LIGNE**
+
+Bon shopping! 🛍️🛒
+

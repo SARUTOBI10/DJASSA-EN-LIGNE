@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Notifications</title>
+</head>
+<body>
+    <h1>Test du système de notifications</h1>
+    <button onclick="runNotificationTest()">Lancer le test</button>
+    <div id="results"></div>
+
+    <script src="script.js"></script>
+    <script src="test_notifications.js"></script>
+    <script>
+        function runNotificationTest() {
+            const results = document.getElementById('results');
+            results.innerHTML = '<h2>Résultats du test:</h2><pre>' + JSON.stringify({
+                test1: 'Ajout de notifications',
+                test2: 'Récupération des notifications',
+                test3: 'Marquage comme lu',
+                test4: 'Vérification finale'
+            }, null, 2) + '</pre>';
+        }
+    </script>
+</body>
+</html>

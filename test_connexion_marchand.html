@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Connexion Marchand</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .test-section {
+            background: #f8f9fa;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 5px;
+        }
+        .test-result {
+            padding: 0.5rem;
+            margin: 0.5rem 0;
+            border-radius: 4px;
+        }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .info { background: #d1ecf1; color: #0c5460; }
+        .warning { background: #fff3cd; color: #856404; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-brand">DJASSA EN LIGNE - TEST CONNEXION MARCHAND</div>
+            <div class="nav-buttons">
+                <button class="btn btn-outline" onclick="testCurrentSession()">Vérifier Session</button>
+                <button class="btn btn-outline" onclick="clearSession()">Nettoyer Session</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container" style="padding: 2rem;">
+        <h1>🧪 Test du Système de Connexion Marchand</h1>
+
+        <div class="test-section">
+            <h3>1. Informations du Compte Marchand</h3>
+            <div id="merchant-info"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>2. Test de Connexion</h3>
+            <form onsubmit="testLogin(event)">
+                <div style="margin-bottom: 1rem;">
+                    <input type="email" id="test-email" placeholder="Email" value="marchand@djassa.com" style="padding: 0.5rem; margin-right: 0.5rem;">
+                    <input type="password" id="test-password" placeholder="Mot de passe" value="djassa123" style="padding: 0.5rem; margin-right: 0.5rem;">
+                    <button type="submit" class="btn">Tester Connexion</button>
+                </div>
+            </form>
+            <div id="login-result"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>3. Test de Sécurité</h3>
+            <button onclick="testBruteForce()" class="btn">Simuler Attaque par Force Brute</button>
+            <div id="security-result"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>4. Test de Déconnexion</h3>
+            <button onclick="testLogout()" class="btn">Tester Déconnexion</button>
+            <div id="logout-result"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>5. État du Système</h3>
+            <div id="system-status"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Afficher les informations du marchand
+        function displayMerchantInfo() {
+            const info = document.getElementById('merchant-info');
+            info.innerHTML = `
+                <div class="test-result info">
+                    <strong>Informations du compte marchand:</strong><br>
+                    • Email: ${merchantData.email}<br>
+                    • Nom: ${merchantData.nom} ${merchantData.prenom}<br>
+                    • Rôle: ${merchantData.role}<br>
+                    • Tentatives de connexion: ${merchantData.loginAttempts}/3<br>
+                    • Compte verrouillé: ${merchantData.locked ? 'Oui' : 'Non'}<br>
+                    • Dernière connexion: ${merchantData.lastLogin || 'Jamais'}
+                </div>
+            `;
+        }
+
+        // Tester la connexion
+        function testLogin(event) {
+            event.preventDefault();
+            const result = document.getElementById('login-result');
+
+            const originalLogin = loginMerchant;
+            loginMerchant = function(e) {
+                e.preventDefault();
+                const email = document.getElementById('test-email').value;
+                const password = document.getElementById('test-password').value;
+
+                if (email === merchantData.email && password === merchantData.password) {
+                    result.innerHTML = '<div class="test-result success">✓ Connexion réussie (test)</div>';
+                    currentMerchant = { ...merchantData };
+                } else {
+                    result.innerHTML = '<div class="test-result error">❌ Échec de connexion (test)</div>';
+                }
+            };
+
+            // Simuler la soumission
+            const fakeEvent = { preventDefault: () => {} };
+            loginMerchant(fakeEvent);
+
+            // Restaurer la fonction originale
+            setTimeout(() => {
+                loginMerchant = originalLogin;
+            }, 100);
+        }
+
+        // Simuler une attaque par force brute
+        function testBruteForce() {
+            const result = document.getElementById('security-result');
+            result.innerHTML = '<div class="test-result warning">🔄 Simulation d\'attaque en cours...</div>';
+
+            let attempts = 0;
+            const maxAttempts = 5;
+            const wrongPasswords = ['wrong1', 'wrong2', 'wrong3', 'wrong4', 'djassa123'];
+
+            function tryLogin() {
+                if (attempts >= maxAttempts) {
+                    result.innerHTML = `
+                        <div class="test-result ${merchantData.locked ? 'error' : 'success'}">
+                            ${merchantData.locked ?
+                                '❌ Compte verrouillé après 3 tentatives échouées' :
+                                '✓ Système de sécurité fonctionnel'
+                            }
+                        </div>
+                    `;
+                    return;
+                }
+
+                // Simuler une tentative de connexion échouée
+                merchantData.loginAttempts++;
+                attempts++;
+
+                if (merchantData.loginAttempts >= 3) {
+                    merchantData.locked = true;
+                }
+
+                setTimeout(tryLogin, 500);
+            }
+
+            tryLogin();
+        }
+
+        // Tester la déconnexion
+        function testLogout() {
+            const result = document.getElementById('logout-result');
+
+            if (!currentMerchant) {
+                result.innerHTML = '<div class="test-result error">❌ Aucun marchand connecté</div>';
+                return;
+            }
+
+            // Simuler la déconnexion
+            currentMerchant = null;
+            localStorage.removeItem('djassa_merchant');
+
+            result.innerHTML = '<div class="test-result success">✓ Déconnexion réussie</div>';
+            updateSystemStatus();
+        }
+
+        // Vérifier la session actuelle
+        function testCurrentSession() {
+            const status = currentMerchant ? 'Connecté' : 'Déconnecté';
+            const details = currentMerchant ?
+                `en tant que ${currentMerchant.prenom} ${currentMerchant.nom}` :
+                '';
+
+            showAlert(`Session actuelle: ${status} ${details}`, currentMerchant ? 'success' : 'info');
+        }
+
+        // Nettoyer la session
+        function clearSession() {
+            currentMerchant = null;
+            localStorage.removeItem('djassa_merchant');
+            localStorage.removeItem('djassa_merchant_credentials');
+            merchantData.loginAttempts = 0;
+            merchantData.locked = false;
+
+            showAlert('Session nettoyée', 'info');
+            updateSystemStatus();
+            displayMerchantInfo();
+        }
+
+        // Mettre à jour l'état du système
+        function updateSystemStatus() {
+            const status = document.getElementById('system-status');
+            const sessionStatus = currentMerchant ? 'active' : 'inactive';
+            const lockStatus = merchantData.locked ? 'verrouillé' : 'déverrouillé';
+
+            status.innerHTML = `
+                <div class="test-result info">
+                    <strong>État du système:</strong><br>
+                    • Session marchand: ${sessionStatus}<br>
+                    • État du compte: ${lockStatus}<br>
+                    • Tentatives: ${merchantData.loginAttempts}/3<br>
+                    • LocalStorage: ${localStorage.getItem('djassa_merchant') ? 'présent' : 'absent'}
+                </div>
+            `;
+        }
+
+        // Initialisation
+        displayMerchantInfo();
+        updateSystemStatus();
+    </script>
+</body>
+</html>

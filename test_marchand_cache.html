@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Bouton Marchand Caché</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-brand">DJASSA EN LIGNE</div>
+            <div class="nav-buttons">
+                <button class="btn btn-outline" id="cart-btn">🛒 Panier</button>
+                <button class="btn btn-outline" id="conn-btn">👤 Connexion</button>
+                <button class="btn btn-outline" id="merchant-nav-btn">🔑 Marchand</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container" style="padding: 2rem;">
+        <h1>🧪 Test du Bouton Marchand Caché</h1>
+        <p>Instructions :</p>
+        <ul>
+            <li>Le bouton marchand devrait être invisible au départ</li>
+            <li>Appuyez sur <strong>Alt + M</strong> pour le révéler</li>
+            <li>Il devrait disparaître automatiquement après 5 secondes</li>
+            <li>Essayez de cliquer dessus quand il est visible</li>
+        </ul>
+        <div id="status">Status: Bouton caché</div>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="debug_shortcut.js"></script>
+    <script>
+        // Script de test pour vérifier le statut du bouton
+        setInterval(() => {
+            const btn = document.getElementById('merchant-nav-btn');
+            const status = document.getElementById('status');
+            if (btn.style.opacity === '1') {
+                status.textContent = 'Status: Bouton visible (5 secondes restantes)';
+                status.style.color = 'green';
+            } else {
+                status.textContent = 'Status: Bouton caché - Appuyez sur Ctrl+M';
+                status.style.color = 'red';
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
